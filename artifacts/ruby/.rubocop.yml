@@ -1,0 +1,66 @@
+# .rubocop.yml
+#
+# Intent: only flag things RuboCop can fix itself on save. Anything that needs a
+# human to refactor or rename (complexity, method/class length, naming, "this
+# looks like a bug") is turned off. For an exhaustive, version-exact list run
+# generate_rubocop_autocorrect_only.rb instead of hand-maintaining this.
+
+AllCops:
+  NewCops: enable
+  # TargetRubyVersion: 3.3   # set to your Ruby
+
+# ---------------------------------------------------------------------------
+# Strings -> double quotes.
+# RuboCop's built-in default is single_quotes; both cops autocorrect safely.
+# ---------------------------------------------------------------------------
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  Enabled: true
+  EnforcedStyle: double_quotes
+
+# Layout/LineLength stays enabled (default Max: 120). Note its autocorrect is
+# "unsafe", so it only rewrites with `rubocop -A`; editors doing safe-only
+# autocorrect on save will still surface long lines as offenses. Bump if needed:
+# Layout/LineLength:
+#   Max: 120
+
+# ---------------------------------------------------------------------------
+# Whole departments that never autocorrect.
+# ---------------------------------------------------------------------------
+Metrics:
+  Enabled: false   # AbcSize, BlockLength, BlockNesting, ClassLength,
+                   # CyclomaticComplexity, MethodLength, ModuleLength,
+                   # ParameterLists, PerceivedComplexity
+
+Naming:
+  Enabled: false   # MethodName, VariableName, PredicatePrefix, AccessorMethodName,
+                   # MethodParameterName, ConstantName, ... (a handful DO
+                   # autocorrect - RescuedExceptionsVariableName,
+                   # HeredocDelimiterCase, BlockForwarding; re-enable those
+                   # individually if you care)
+
+# ---------------------------------------------------------------------------
+# Style cops that require a manual fix.
+# ---------------------------------------------------------------------------
+Style/Documentation:            { Enabled: false }
+Style/DocumentationMethod:      { Enabled: false }
+Style/AsciiComments:            { Enabled: false }
+Style/CombinableLoops:          { Enabled: false }
+Style/FloatDivision:            { Enabled: false }
+Style/GlobalVars:               { Enabled: false }
+Style/GuardClause:              { Enabled: false }   # autocorrects on rubocop >= 1.62; drop this to keep it
+Style/IdenticalConditionalBranches: { Enabled: false }
+Style/MissingRespondToMissing:  { Enabled: false }
+Style/MixinUsage:               { Enabled: false }
+Style/MultilineBlockChain:      { Enabled: false }
+Style/OptionalArguments:        { Enabled: false }
+
+# ---------------------------------------------------------------------------
+# Lint: left ENABLED on purpose. These flag real latent bugs and most don't
+# autocorrect, but you generally want to see them. If you want the literal
+# "autocorrectable only" set, run the generator script - it disables the ~60
+# non-autocorrectable Lint cops too.
+# ---------------------------------------------------------------------------
